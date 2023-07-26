@@ -109,12 +109,13 @@ class HomeScreen extends StatelessWidget {
                             () => Player(
                               data: snapshot.data![index],
                             ),
+                            transition: Transition.downToUp,
                           );
                           ///play audio
-                          // controller.playAudio(
-                          //   uri: snapshot.data![index].uri,
-                          //   index: index,
-                          // );
+                          controller.playAudio(
+                            uri: snapshot.data![index].uri,
+                            index: index,
+                          );
                         },
                       );
                     }),

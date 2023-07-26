@@ -1,13 +1,17 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_player/const/colors.dart';
 import 'package:music_player/const/text_style.dart';
+import 'package:music_player/controllers/player_controller.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Player extends StatelessWidget {
   final SongModel data;
-  const Player({super.key, required this.data});
+  Player({super.key, required this.data});
+
+  final controller = Get.find<PlayerController>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +24,19 @@ class Player extends StatelessWidget {
             Expanded(
               child: Container(
                 alignment: Alignment.center,
-                height: 250,
-                width: 250,
+                height: 300,
+                width: 300,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.red,
                 ),
-                child: Icon(Icons.music_note, size: 48),
+                child: QueryArtworkWidget(
+                  id: data.id,
+                  type: ArtworkType.AUDIO,
+                  artworkHeight: double.infinity,
+                  artworkWidth: double.infinity,
+                  nullArtworkWidget: Icon(Icons.music_note, size: 48),
+                ),
               ),
             ),
             SizedBox(height: 12),
@@ -92,21 +102,37 @@ class Player extends StatelessWidget {
                             color: bgDarkColor,
                           ),
                         ),
-                        CircleAvatar(
-                          backgroundColor: bgDarkColor,
-                          radius: 35,
-                          child: Transform.scale(
-                            scale: 2.5,
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.play_arrow,
-                                size: 54,
-                                color: whiteColor,
+                        Obx(() {
+                          return CircleAvatar(
+                            backgroundColor: bgDarkColor,
+                            radius: 35,
+                            child: Transform.scale(
+                              scale: 2.5,
+                              child: IconButton(
+                                onPressed: () {
+                                  if (controller.isPlaying.value) {
+                                    controller.audioPlayer.pause();
+                                    controller.isPlaying(false);
+                                  } else {
+                                    controller.audioPlayer.play();
+                                    controller.isPlaying(true);
+                                  }
+                                },
+                                icon: controller.isPlaying.value
+                                    ? Icon(
+                                        Icons.pause,
+                                        size: 54,
+                                        color: whiteColor,
+                                      )
+                                    : Icon(
+                                        Icons.play_arrow_rounded,
+                                        size: 54,
+                                        color: whiteColor,
+                                      ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        }),
                         IconButton(
                           onPressed: () {},
                           icon: Icon(
