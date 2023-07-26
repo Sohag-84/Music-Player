@@ -69,27 +69,38 @@ class Player extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Text(
-                          "0:0",
-                          style: ourStyle(color: bgDarkColor),
-                        ),
-                        Expanded(
-                          child: Slider(
-                            thumbColor: sliderColor,
-                            activeColor: sliderColor,
-                            inactiveColor: bgColor,
-                            value: 0.0,
-                            onChanged: (value) {},
+
+                    ///slider
+                    Obx(() {
+                      return Row(
+                        children: [
+                          Text(
+                            controller.position.value,
+                            style: ourStyle(color: bgDarkColor),
                           ),
-                        ),
-                        Text(
-                          "04:00",
-                          style: ourStyle(color: bgDarkColor),
-                        ),
-                      ],
-                    ),
+                          Expanded(
+                            child: Slider(
+                              thumbColor: sliderColor,
+                              activeColor: sliderColor,
+                              inactiveColor: bgColor,
+                              min: Duration(seconds: 0).inSeconds.toDouble(),
+                              max: controller.max.value,
+                              value: controller.value.value,
+                              onChanged: (newValue) {
+                                controller.changeDurationToSecond(
+                                  seconds: newValue.toInt(),
+                                );
+                                newValue = newValue;
+                              },
+                            ),
+                          ),
+                          Text(
+                            controller.duration.value,
+                            style: ourStyle(color: bgDarkColor),
+                          ),
+                        ],
+                      );
+                    }),
                     SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
