@@ -62,34 +62,54 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
                 physics: BouncingScrollPhysics(),
-                itemCount: 100,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return Container(
                     margin: EdgeInsets.only(bottom: 4),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: ListTile(
-                      tileColor: bgColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      leading:
-                          Icon(Icons.music_note, color: whiteColor, size: 32),
-                      title: Text(
-                        snapshot.data![index].displayNameWOExt,
-                        style: ourStyle(
-                          fontWeight: FontWeight.bold,
-                          size: 15,
+                    child: Obx(() {
+                      return ListTile(
+                        tileColor: bgColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                      ),
-                      subtitle: Text(
-                        snapshot.data![index].artist.toString(),
-                        style: ourStyle(size: 12),
-                      ),
-                      trailing:
-                          Icon(Icons.play_arrow, color: whiteColor, size: 26),
-                    ),
+                        leading: QueryArtworkWidget(
+                          id: snapshot.data![index].id,
+                          type: ArtworkType.AUDIO,
+                          nullArtworkWidget: Icon(
+                            Icons.music_note,
+                            color: whiteColor,
+                            size: 32,
+                          ),
+                        ),
+                        title: Text(
+                          snapshot.data![index].displayNameWOExt,
+                          style: ourStyle(
+                            fontWeight: FontWeight.bold,
+                            size: 15,
+                          ),
+                        ),
+                        subtitle: Text(
+                          snapshot.data![index].artist.toString(),
+                          style: ourStyle(size: 12),
+                        ),
+                        trailing: controller.playIndex.value == index && controller.isPlaying.value
+                            ? Icon(
+                                Icons.play_arrow,
+                                color: whiteColor,
+                                size: 26,
+                              )
+                            : null,
+                        onTap: () {
+                          controller.playAudio(
+                            uri: snapshot.data![index].uri,
+                            index: index,
+                          );
+                        },
+                      );
+                    }),
                   );
                 },
               ),
