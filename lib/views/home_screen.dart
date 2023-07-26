@@ -1,11 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_player/const/colors.dart';
 import 'package:music_player/const/text_style.dart';
+import 'package:music_player/controllers/player_controller.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  var controller = Get.put(PlayerController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,39 +36,66 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: 100,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.only(bottom: 4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: ListTile(
-                tileColor: bgColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)
-                ),
-                leading: Icon(Icons.music_note, color: whiteColor, size: 32),
-                title: Text(
-                  "Music name",
-                  style: ourStyle(
-                    fontWeight: FontWeight.bold,
-                    size: 15,
-                  ),
-                ),
-                subtitle: Text(
-                  "Artist name",
-                  style: ourStyle(size: 12),
-                ),
-                trailing: Icon(Icons.play_arrow, color: whiteColor, size: 26),
+      body: FutureBuilder<List<SongModel>>(
+        future: controller.audioQuery.querySongs(
+          ignoreCase: true,
+          orderType: OrderType.ASC_OR_SMALLER,
+          sortType: null,
+          uriType: UriType.EXTERNAL,
+        ),
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.data!.isEmpty) {
+            print("=== ==== ${snapshot.data} ==== ===");
+            return Center(
+              child: Text(
+                "No song found",
+                style: ourStyle(),
               ),
             );
-          },
-        ),
+          } else {
+            print("=== ==== ${snapshot.data} ==== ===");
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: 100,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ListTile(
+                      tileColor: bgColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      leading:
+                          Icon(Icons.music_note, color: whiteColor, size: 32),
+                      title: Text(
+                        snapshot.data![index].displayNameWOExt,
+                        style: ourStyle(
+                          fontWeight: FontWeight.bold,
+                          size: 15,
+                        ),
+                      ),
+                      subtitle: Text(
+                        snapshot.data![index].artist.toString(),
+                        style: ourStyle(size: 12),
+                      ),
+                      trailing:
+                          Icon(Icons.play_arrow, color: whiteColor, size: 26),
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+        },
       ),
     );
   }
