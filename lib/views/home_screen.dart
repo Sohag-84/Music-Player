@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:music_player/const/colors.dart';
 import 'package:music_player/const/text_style.dart';
 import 'package:music_player/controllers/player_controller.dart';
+import 'package:music_player/views/player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -95,7 +96,8 @@ class HomeScreen extends StatelessWidget {
                           snapshot.data![index].artist.toString(),
                           style: ourStyle(size: 12),
                         ),
-                        trailing: controller.playIndex.value == index && controller.isPlaying.value
+                        trailing: controller.playIndex.value == index &&
+                                controller.isPlaying.value
                             ? Icon(
                                 Icons.play_arrow,
                                 color: whiteColor,
@@ -103,10 +105,16 @@ class HomeScreen extends StatelessWidget {
                               )
                             : null,
                         onTap: () {
-                          controller.playAudio(
-                            uri: snapshot.data![index].uri,
-                            index: index,
+                          Get.to(
+                            () => Player(
+                              data: snapshot.data![index],
+                            ),
                           );
+                          ///play audio
+                          // controller.playAudio(
+                          //   uri: snapshot.data![index].uri,
+                          //   index: index,
+                          // );
                         },
                       );
                     }),
