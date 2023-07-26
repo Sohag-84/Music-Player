@@ -107,10 +107,11 @@ class HomeScreen extends StatelessWidget {
                         onTap: () {
                           Get.to(
                             () => Player(
-                              data: snapshot.data![index],
+                              data: snapshot.data!,
                             ),
                             transition: Transition.downToUp,
                           );
+
                           ///play audio
                           controller.playAudio(
                             uri: snapshot.data![index].uri,
