@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:music_player/const/colors.dart';
 import 'package:music_player/const/text_style.dart';
@@ -32,7 +33,7 @@ class HomeScreen extends StatelessWidget {
         title: Text(
           "Music Player",
           style: ourStyle(
-            size: 18,
+            size: 18.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -60,21 +61,21 @@ class HomeScreen extends StatelessWidget {
           } else {
             print("=== ==== ${snapshot.data} ==== ===");
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.w),
               child: ListView.builder(
                 physics: BouncingScrollPhysics(),
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: EdgeInsets.only(bottom: 4),
+                    margin: EdgeInsets.only(bottom: 4.h),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Obx(() {
                       return ListTile(
                         tileColor: bgColor,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         leading: QueryArtworkWidget(
                           id: snapshot.data![index].id,
@@ -82,26 +83,26 @@ class HomeScreen extends StatelessWidget {
                           nullArtworkWidget: Icon(
                             Icons.music_note,
                             color: whiteColor,
-                            size: 32,
+                            size: 32.h,
                           ),
                         ),
                         title: Text(
                           snapshot.data![index].displayNameWOExt,
                           style: ourStyle(
                             fontWeight: FontWeight.bold,
-                            size: 15,
+                            size: 15.sp,
                           ),
                         ),
                         subtitle: Text(
                           snapshot.data![index].artist.toString(),
-                          style: ourStyle(size: 12),
+                          style: ourStyle(size: 12.h),
                         ),
                         trailing: controller.playIndex.value == index &&
                                 controller.isPlaying.value
                             ? Icon(
                                 Icons.play_arrow,
                                 color: whiteColor,
-                                size: 26,
+                                size: 26.h,
                               )
                             : null,
                         onTap: () {
