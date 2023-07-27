@@ -1,16 +1,20 @@
-# music_player
+# Music Player
 
-A new Flutter project.
+Flutter Music player app
 
-## Getting Started
+### ✍🏽The main features of our app are:
+🎵 All mp3 audio list </br>
+🎵 Play song</br>
+🎵 Show song name</br>
+🎵 Show Artist name</br>
+🎵 Pause song</br>
+🎵 Go Preveous song</br>
+🎵 Go Next song</br>
 
-This project is a starting point for a Flutter application.
+## Screenshot
 
-A few resources to get you started if this is your first Flutter project:
+<p align="center">
+  <img sytle="margin: 0 25px;" width="350" height="700" src="https://github.com/Sohag-84/Music-Player/assets/99319134/0f6366a0-6a2c-48ae-9154-f848134dd1e5">
+  <img sytle="margin: 0 25px;" width="350" height="700" src="https://github.com/Sohag-84/Music-Player/assets/99319134/1fd985b7-77af-4fce-809b-bd902c64266b">
+</p>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
